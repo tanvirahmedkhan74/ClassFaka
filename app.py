@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from Course import Course
 from ClassRoom import ClassRoom
 from tabulate import tabulate
+from datetime import datetime
 
 app = Flask(__name__, template_folder="./templates")
 api = Api(app)
@@ -73,11 +74,13 @@ def get_all_vacant_room():
         for room, cls in rooms.items():
             vacs = cls.get_vacant_times(d)
             for v in vacs:
+                start_time = datetime.strptime(str(v[0]), '%H:%M:%S').strftime('%I:%M %p')
+                end_time = datetime.strptime(str(v[1]), '%H:%M:%S').strftime('%I:%M %p')
                 vacant_rooms.append({
                     'day': map_days[d],
                     'room': room,
-                    'start_time': str(v[0]),
-                    'end_time': str(v[1])
+                    'start_time': start_time,
+                    'end_time': end_time
                 })
 
     return render_template('vacant.html', table=vacant_rooms)
