@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Vacant Rooms (Summer 2023)</title>
+    <title>Vacant Rooms</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,32 +33,63 @@
             width: 100%;
             box-sizing: border-box;
         }
+
     </style>
 </head>
 <body>
-    <h1>Vacant Rooms</h1>
-    <div class="search-bar">
-        <input type="text" placeholder="Search...">
-    </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Day</th>
-                <th>Room</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for room in table %}
-            <tr>
-                <td>{{ room.day }}</td>
-                <td>{{ room.room }}</td>
-                <td>{{ room.start_time }}</td>
-                <td>{{ room.end_time }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<h1>Vacant Rooms (Summer -2023)</h1>
+<div class="search-bar">
+    <input type="text" id="search-input" placeholder="Search...">
+    <button onclick="searchTable()">Search</button>
+</div>
+<script>
+function searchTable() {
+    var input = document.getElementById("search-input");
+    var filter = input.value.toUpperCase();
+    var table = document.getElementsByTagName("table")[0];
+    var rows = table.getElementsByTagName("tr");
+
+    for (var i = 0; i < rows.length; i++) {
+        var cells = rows[i].getElementsByTagName("td");
+        var match = false;
+
+        for (var j = 0; j < cells.length; j++) {
+            var cell = cells[j];
+
+            if (cell.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                match = true;
+                break;
+            }
+        }
+
+        if (match) {
+            rows[i].style.display = "";
+        } else {
+            rows[i].style.display = "none";
+        }
+    }
+}
+
+</script>
+<table>
+    <thead>
+    <tr>
+        <th>Day</th>
+        <th>Room</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for room in table %}
+    <tr>
+        <td>{{ room.day }}</td>
+        <td>{{ room.room }}</td>
+        <td>{{ room.start_time }}</td>
+        <td>{{ room.end_time }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
 </body>
 </html>
